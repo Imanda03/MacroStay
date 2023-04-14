@@ -1,18 +1,18 @@
 import express from "express";
 import mongoose from "mongoose";
-import dotenv from "dotenv"
-import authRoutes from "./routes/auth.js"
-import usersRoutes from "./routes/users.js"
-import roomsRoutes from "./routes/rooms.js"
-import hotelsRoutes from "./routes/hotels.js"
+import dotenv from "dotenv";
+import authRoutes from "./routes/auth.js";
+import usersRoutes from "./routes/users.js";
+import roomsRoutes from "./routes/rooms.js";
+import hotelsRoutes from "./routes/hotels.js";
 
 const app = express();
 dotenv.config();
 
-const connect = () =>{
-    mongoose.connect(process.env.URL);
-    console.log("DataBase has been connected")
-}
+const connect = () => {
+  mongoose.connect(process.env.URL);
+  console.log("DataBase has been connected");
+};
 
 //middleware
 
@@ -34,9 +34,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-
-
-app.listen(process.env.PORT, ()=> {
-    console.log(`Server is running at ${process.env.PORT}`);
-    connect();
-})
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running at ${process.env.PORT}`);
+  connect();
+});
