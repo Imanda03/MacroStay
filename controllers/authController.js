@@ -9,8 +9,7 @@ export const register = async (req, res, next) => {
     const hashPassword = bcrypt.hashSync(req.body.password, salt);
 
     const newUser = new User({
-      username: req.body.username,
-      email: req.body.email,
+      ...req.body,
       password: hashPassword,
     });
     await newUser.save();
@@ -29,8 +28,7 @@ export const login = async (req, res, next) => {
       req.body.password,
       user.password
     );
-    if (!isPasswordCorrect)
-      return next(createError(404, "Wrong Password"));
+    if (!isPasswordCorrect) return next(createError(404, "Wrong Password"));
 
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
@@ -41,7 +39,7 @@ export const login = async (req, res, next) => {
     res
       .cookie("access_token", token, { httpOnly: true })
       .status(200)
-      .send({ ...otherDetails });
+      .send({ details: { ...otherDetails }, isAdmin });
   } catch (error) {
     next(error);
   }
