@@ -7,7 +7,14 @@ export const userColumns = [
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
-          <img className="cellImg" src={params.row.img} alt="avatar" />
+          <img
+            className="cellImg"
+            src={
+              params.row.img ||
+              "https://static.vecteezy.com/system/resources/previews/009/330/731/original/avatar-icon-profile-icon-member-login-isolated-login-icons-profile-icons-free-vector.jpg"
+            }
+            alt="avatar"
+          />
           {params.row.username}
         </div>
       );
@@ -33,18 +40,6 @@ export const userColumns = [
     field: "phone",
     headerName: "Phone",
     width: 100,
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 160,
-    renderCell: (params) => {
-      return (
-        <div className={`cellWithStatus ${params.row.status}`}>
-          {params.row.status}
-        </div>
-      );
-    },
   },
 ];
 
