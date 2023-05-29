@@ -9,6 +9,9 @@ import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
+import { hotelColumns, roomColumns, userColumns } from "./datatablesource";
+import NewHotel from "./pages/newHotel/NewHotel";
+import NewRoom from "./pages/newRoom/NewRoom";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -40,7 +43,7 @@ function App() {
                 index
                 element={
                   <ProtectedRoute>
-                    <List />
+                    <List columns={userColumns} />
                   </ProtectedRoute>
                 }
               />
@@ -57,12 +60,12 @@ function App() {
                 element={<New inputs={userInputs} title="Add New User" />}
               />
             </Route>
-            <Route path="products">
+            <Route path="hotels">
               <Route
                 index
                 element={
                   <ProtectedRoute>
-                    <List />
+                    <List columns={hotelColumns} />
                   </ProtectedRoute>
                 }
               />
@@ -74,10 +77,26 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route path="new" element={<NewHotel />} />
+            </Route>
+            <Route path="rooms">
               <Route
-                path="new"
-                element={<New inputs={productInputs} title="Add New Product" />}
+                index
+                element={
+                  <ProtectedRoute>
+                    <List columns={roomColumns} />
+                  </ProtectedRoute>
+                }
               />
+              <Route
+                path=":productId"
+                element={
+                  <ProtectedRoute>
+                    <Single />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="new" element={<NewRoom />} />
             </Route>
           </Route>
         </Routes>
