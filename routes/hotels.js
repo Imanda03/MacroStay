@@ -14,13 +14,13 @@ import { verifyAdmin } from "../utils/verifyToken.js";
 const router = express.Router();
 
 //CREATE
-router.post("/", verifyAdmin, addHotels);
+router.post("/", addHotels);
 
 //UPDATE
-router.put("/:id", verifyAdmin, updateHotels);
+router.put("/:id", updateHotels);
 
 //DELETE
-router.delete("/:id", verifyAdmin, deleteHotel);
+router.delete("/:id", deleteHotel);
 
 //GET
 router.get("/find/:id", getSingleHotels);
