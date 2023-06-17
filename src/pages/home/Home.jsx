@@ -12,7 +12,7 @@ const Home = () => {
       <Sidebar />
       <div className="homeContainer">
         <Navbar />
-        <div className="widgets">
+        {/* <div className="widgets">
           <Widget type="user" />
           <Widget type="order" />
           <Widget type="earning" />
@@ -25,7 +25,8 @@ const Home = () => {
         <div className="listContainer">
           <div className="listTitle">Latest Transactions</div>
           <Table />
-        </div>
+        </div> */}
+        <div className="homePage">Welcome To DashBoard</div>
       </div>
     </div>
   );
