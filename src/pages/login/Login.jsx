@@ -30,13 +30,15 @@ const Login = () => {
       );
       dispatch({
         type: "LOGIN_SUCCESS",
-        payload: res.data,
+        payload: res.data.details,
       });
       navigate("/");
     } catch (error) {
       dispatch({ type: "LOGIN_FAILURE", payload: error.response.data });
     }
   };
+
+  const handleRegister = () => {};
 
   return (
     <div className="login">
@@ -59,6 +61,10 @@ const Login = () => {
         />
         <button disabled={loading} className="lButton" onClick={handleClick}>
           Login
+        </button>
+        <h3 className="orLine"> OR</h3>
+        <button disabled={loading} className="lButton" onClick={handleRegister}>
+          Register
         </button>
         {error && <span>{error.message}</span>}
       </div>

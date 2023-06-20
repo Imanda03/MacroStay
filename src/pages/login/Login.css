@@ -30,3 +30,9 @@
     background-color: #0071c28c;
     cursor: not-allowed;
 }
+
+.orLine{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
