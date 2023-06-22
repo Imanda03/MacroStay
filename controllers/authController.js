@@ -13,7 +13,7 @@ export const register = async (req, res, next) => {
       password: hashPassword,
     });
     await newUser.save();
-    res.status(200).send(newUser);
+    res.status(200).send({ newUser, status: 200 });
   } catch (error) {
     next(error);
   }
