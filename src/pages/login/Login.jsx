@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import "./Login.css";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [credentials, setCardentials] = useState({
@@ -38,35 +38,49 @@ const Login = () => {
     }
   };
 
-  const handleRegister = () => {};
+  const handleRegister = () => {
+    navigate("/register");
+  };
 
   return (
-    <div className="login">
-      <div className="lContainer">
-        <input
-          type="text"
-          placeholder="Email"
-          id="email"
-          name="email"
-          onChange={handleChange}
-          className="lInput"
-        />
-        <input
-          type="password"
-          placeholder="password"
-          id="password"
-          name="password"
-          onChange={handleChange}
-          className="lInput"
-        />
-        <button disabled={loading} className="lButton" onClick={handleClick}>
-          Login
-        </button>
-        <h3 className="orLine"> OR</h3>
-        <button disabled={loading} className="lButton" onClick={handleRegister}>
-          Register
-        </button>
-        {error && <span>{error.message}</span>}
+    <div className="navHome">
+      <h4
+        onClick={() => navigate("/")}
+        style={{ marginLeft: "20px", marginTop: "20PX", cursor: "pointer" }}
+      >
+        Back to homePage
+      </h4>
+      <div className="login">
+        <div className="lContainer">
+          <input
+            type="text"
+            placeholder="Email"
+            id="email"
+            name="email"
+            onChange={handleChange}
+            className="lInput"
+          />
+          <input
+            type="password"
+            placeholder="password"
+            id="password"
+            name="password"
+            onChange={handleChange}
+            className="lInput"
+          />
+          <button disabled={loading} className="lButton" onClick={handleClick}>
+            Login
+          </button>
+          <h3 className="orLine"> OR</h3>
+          <button
+            disabled={loading}
+            className="lButton"
+            onClick={handleRegister}
+          >
+            Register
+          </button>
+          {error && <span>{error.message}</span>}
+        </div>
       </div>
     </div>
   );

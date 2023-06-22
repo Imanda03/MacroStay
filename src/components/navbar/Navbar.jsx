@@ -1,10 +1,15 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import "./navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
   return (
     <div className="navbar">
       <div className="navContainer">
@@ -12,11 +17,35 @@ const Navbar = () => {
           <span className="logo">MacroStay</span>
         </Link>
         {user ? (
-          user.username
+          <div>
+            {" "}
+            {user.username}
+            <button
+              onClick={handleLogout}
+              style={{ marginLeft: "20px", cursor: "pointer" }}
+            >
+              Logout
+            </button>{" "}
+          </div>
         ) : (
           <div className="navItems">
-            <button className="navButton">Register</button>
-            <button className="navButton">Login</button>
+            <button className="navButton">
+              <Link
+                to="/register"
+                style={{ color: "inherit", textDecoration: "none " }}
+              >
+                Register
+              </Link>
+            </button>
+
+            <button className="navButton">
+              <Link
+                to="/login"
+                style={{ color: "inherit", textDecoration: "none " }}
+              >
+                Login
+              </Link>
+            </button>
           </div>
         )}
       </div>

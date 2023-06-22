@@ -24,7 +24,7 @@
     cursor: pointer;
 }
 
-rItem{
+.rItem{
     display: flex;
     align-items: center;
     gap: 50px;
@@ -32,14 +32,15 @@ rItem{
 
 }
 
-.rInfo{
+.rItemInfo{
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 3px;
 }
 
 .rTitle{
     font-weight:  500;
+    font-size: large;
 }
 
 .rDesc{
@@ -52,6 +53,8 @@ rItem{
 
 .rPrice{
     font-weight: 500;
+    font-size: 14px;
+    font-family:'Courier New', Courier, monospace;
 }
 
 .rSelectRooms{
@@ -77,4 +80,10 @@ rItem{
   border-radius: 5px;
   width: 100%;
   margin-top: 20px;
+}
+
+.span{
+    font-size: 34px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    
 }

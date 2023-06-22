@@ -2,7 +2,7 @@ import "./hotel.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
-import Footer from "../../components/footer/Footer";
+// import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleArrowLeft,
@@ -107,7 +107,9 @@ const Hotel = () => {
               </div>
             )}
             <div className="hotelWrapper">
-              <button className="bookNow">Reserve or Book Now!</button>
+              <button className="bookNow" onClick={handleClick}>
+                Reserve or Book Now!
+              </button>
               <h1 className="hotelTitle">{data.name}</h1>
               <div className="hotelAddress">
                 <FontAwesomeIcon icon={faLocationDot} />
@@ -117,8 +119,8 @@ const Hotel = () => {
                 Excellent location – {data.distance} from center
               </span>
               <span className="hotelPriceHighlight">
-                Book a stay over ${data.cheapestPrice} at this property and get
-                a free airport taxi
+                Book a stay over Rs.{data.cheapestPrice} at this property and
+                get a free airport taxi
               </span>
               <div className="hotelImages">
                 {data.photos?.map((photo, i) => (
@@ -144,7 +146,7 @@ const Hotel = () => {
                     excellent location score of 9.8!
                   </span>
                   <h2>
-                    <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
+                    <b>Rs.{days * data.cheapestPrice * options.room}</b> ({days}{" "}
                     nights)
                   </h2>
                   <button onClick={handleClick}>Reserve or Book Now!</button>
@@ -152,7 +154,7 @@ const Hotel = () => {
               </div>
             </div>
             <MailList />
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </>
       )}
