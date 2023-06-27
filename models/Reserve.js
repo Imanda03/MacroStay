@@ -14,6 +14,9 @@ const ReserveSchema = new mongoose.Schema(
     days: {
       type: String,
     },
+    hotelName: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
