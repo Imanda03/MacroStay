@@ -6,6 +6,7 @@ import { useState } from "react";
 import { hotelInputs } from "../../formSource";
 import { useFetch } from "../../hooks/useFetch";
 import axios from "axios";
+import { message } from "antd";
 
 const NewHotel = () => {
   const [files, setFiles] = useState("");
@@ -56,6 +57,7 @@ const NewHotel = () => {
     } catch (err) {
       console.log(err);
     }
+    message.success("Hotel added successfully");
   };
   return (
     <div className="new">
