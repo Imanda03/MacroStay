@@ -10,9 +10,7 @@ const SearchItem = ({ item }) => {
         <span className="siDistance">{item.distance}</span>
         <span className="siTaxiOp">Free airport taxi</span>
         <span className="siSubtitle">{item.desc}</span>
-        <span className="siFeatures">
-          Entire studio • 1 bathroom • 21m² 1 full bed
-        </span>
+        <span className="siFeatures">Entire studio • 1 bathroom • 21m²</span>
         <span className="siCancelOp">Free cancellation </span>
         <span className="siCancelOpSubtitle">
           You can cancel later, so lock in this great price today!

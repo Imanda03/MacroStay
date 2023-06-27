@@ -44,11 +44,8 @@ const Login = () => {
 
   return (
     <div className="navHome">
-      <h4
-        onClick={() => navigate("/")}
-        style={{ marginLeft: "20px", marginTop: "20PX", cursor: "pointer" }}
-      >
-        Back to homePage
+      <h4 style={{ marginLeft: "20px", marginTop: "20PX", cursor: "pointer" }}>
+        <Link to={"/"}>Back to homePage</Link>
       </h4>
       <div className="login">
         <div className="lContainer">

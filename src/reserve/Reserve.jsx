@@ -8,12 +8,21 @@ import { SearchContext } from "../context/SearchContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const Reserve = ({ setOpen, hotelId }) => {
+const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
+  const users = localStorage.getItem("user");
+  const [forUsername, setForUsername] = useState(users);
   const [selectedRooms, setSelectedRooms] = useState([]);
   const { data, loading, error } = useFetch(
     `http://localhost:8081/api/hotels/room/${hotelId}`
   );
-  console.log(data);
+
+  const handleTest = () => {
+    console.log(forUsername["username"]);
+    console.log(dates[0].endDate.getDate() - dates[0].startDate.getDate());
+    console.log(price);
+    console.log(hotelName);
+  };
+
   const { dates } = useContext(SearchContext);
 
   const getDatesInRange = (startDate, endDate) => {
@@ -112,6 +121,7 @@ const Reserve = ({ setOpen, hotelId }) => {
           Reserve Now!
         </button>
       </div>
+      <button onClick={handleTest}>Test</button>
     </div>
   );
 };

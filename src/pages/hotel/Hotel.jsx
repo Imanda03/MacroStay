@@ -45,6 +45,7 @@ const Hotel = () => {
   // console.log(dates)
 
   // const days = 2
+  const sendPrice = data.cheapestPrice * days;
 
   const handleOpen = (i) => {
     setSlideNumber(i);
@@ -110,7 +111,7 @@ const Hotel = () => {
               <button className="bookNow" onClick={handleClick}>
                 Reserve or Book Now!
               </button>
-              <h1 className="hotelTitle">{data.name}</h1>
+              <h1 className="hotelTitle">{data.name.toUpperCase()}</h1>
               <div className="hotelAddress">
                 <FontAwesomeIcon icon={faLocationDot} />
                 <span>{data.address}</span>
@@ -136,7 +137,7 @@ const Hotel = () => {
               </div>
               <div className="hotelDetails">
                 <div className="hotelDetailsTexts">
-                  <h1 className="hotelTitle">{data.title}</h1>
+                  <h1 className="hotelTitle2">{data.title}</h1>
                   <p className="hotelDesc">{data.desc}</p>
                 </div>
                 <div className="hotelDetailsPrice">
@@ -159,7 +160,14 @@ const Hotel = () => {
         </>
       )}
 
-      {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
+      {openModal && (
+        <Reserve
+          hotelName={data.name}
+          price={sendPrice}
+          setOpen={setOpenModal}
+          hotelId={id}
+        />
+      )}
     </div>
   );
 };
