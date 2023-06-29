@@ -3,6 +3,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd";
+import "./Register.css"
 // import { register } from "../../Context/Api";
 
 const Register = () => {
@@ -40,7 +41,7 @@ const Register = () => {
     }
   };
   return (
-    <div>
+    <div  >
       <form>
         <Box
           display="flex"
@@ -52,9 +53,16 @@ const Register = () => {
           marginTop={10}
           padding={5}
           borderRadius={5}
+          backgroundColor="#f5f3f0"
           boxShadow={"5px 5px 10px #ccc"}
+          sx={{
+            ":hover": {
+              boxShadow: "10px 10px 20px #ccc",
+              backgroundColor: "#edd8d8",
+            },
+          }}
         >
-          <Typography variant="h2" padding={3} textAlign="center">
+          <Typography variant="h2" padding={2} textAlign="center">
             Register
           </Typography>
           <TextField
@@ -62,7 +70,7 @@ const Register = () => {
             margin="normal"
             type="text"
             variant="standard"
-            label="Name"
+            label="Username"
             onChange={(e) => handleChange(e)}
             value={userData.name}
           />

@@ -12,6 +12,7 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
   const users = localStorage.getItem("user");
   const [forUsername, setForUsername] = useState(users);
   const [selectedRooms, setSelectedRooms] = useState([]);
+  const [roomNumber, setRoomNumber] = useState([])
   const { data, loading, error } = useFetch(
     `http://localhost:8081/api/hotels/room/${hotelId}`
   );
@@ -61,6 +62,7 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
     );
   };
 
+
   const navigate = useNavigate();
 
   const handleClick = async () => {
@@ -103,7 +105,7 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
             </div>
             <div className="rSelectRooms">
               {item.roomNumbers.map((roomNumber) => (
-                <div className="room">
+                <div className="room" key={roomNumber._id}>
                   <label>{roomNumber.number}</label>
 
                   <input
