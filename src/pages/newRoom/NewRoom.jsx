@@ -6,6 +6,7 @@ import { useState } from "react";
 import { roomInputs } from "../../formSource";
 import { useFetch } from "../../hooks/useFetch";
 import axios from "axios";
+import {message} from "antd"
 
 const NewRoom = () => {
   const [info, setInfo] = useState({});
@@ -26,9 +27,11 @@ const NewRoom = () => {
         ...info,
         roomNumbers,
       });
+      
     } catch (error) {
       console.log(error);
     }
+    message.success("Room added")
   };
   return (
     <div className="new">
