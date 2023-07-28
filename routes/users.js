@@ -3,6 +3,7 @@ import {
   deleteUser,
   getAllUsers,
   getSingleUser,
+  getUserRerve,
   updateUser,
 } from "../controllers/userController.js";
 import { verifyAdmin, verifyToken, verifyUser } from "../utils/verifyToken.js";
@@ -30,5 +31,7 @@ router.get("/:id", getSingleUser);
 
 //GET ALL
 router.get("/", getAllUsers);
+
+router.get("/reserve/:id", getUserRerve);
 
 export default router;

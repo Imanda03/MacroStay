@@ -1,4 +1,5 @@
 import User from "../models/Users.js";
+import Reserve from "../models/Reserve.js";
 
 export const updateUser = async (req, res, next) => {
   try {
@@ -37,6 +38,20 @@ export const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find();
     res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserRerve = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const list = await Promise.all(
+      user.reserve.map((reser) => {
+        return Reserve.findById(reser);
+      })
+    );
+    res.status(200).json(list);
   } catch (error) {
     next(error);
   }

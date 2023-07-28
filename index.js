@@ -26,7 +26,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/rooms", roomsRoutes);
 app.use("/api/hotels", hotelsRoutes);
-app.use("/api/auth", reserveRoutes);
+app.use("/api/reserve", reserveRoutes);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

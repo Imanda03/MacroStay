@@ -58,7 +58,7 @@ export const getAllHotels = async (req, res, next) => {
       ...others,
       cheapestPrice: {
         $gte: min || 1,
-        $lte: max || 900,
+        $lte: max || 9999,
       },
     };
     console.log(req.query);
