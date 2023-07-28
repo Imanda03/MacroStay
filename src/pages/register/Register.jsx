@@ -3,7 +3,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd";
-import "./Register.css"
+import "./Register.css";
 // import { register } from "../../Context/Api";
 
 const Register = () => {
@@ -41,7 +41,7 @@ const Register = () => {
     }
   };
   return (
-    <div  >
+    <div>
       <form>
         <Box
           display="flex"
@@ -70,7 +70,7 @@ const Register = () => {
             margin="normal"
             type="text"
             variant="standard"
-            label="Username"
+            label="Full Name"
             onChange={(e) => handleChange(e)}
             value={userData.name}
           />

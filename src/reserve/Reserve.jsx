@@ -9,19 +9,24 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
-  const users = localStorage.getItem("user");
-  const [forUsername, setForUsername] = useState(users);
+  const users = JSON.parse(localStorage.getItem("user"));
+  console.log(users);
+  const [forPrice, setForPrice] = useState();
   const [selectedRooms, setSelectedRooms] = useState([]);
-  const [roomNumber, setRoomNumber] = useState([])
+  const [roomNumbers, setRoomNumbers] = useState([]);
   const { data, loading, error } = useFetch(
     `http://localhost:8081/api/hotels/room/${hotelId}`
   );
 
   const handleTest = () => {
-    console.log(forUsername["username"]);
-    console.log(dates[0].endDate.getDate() - dates[0].startDate.getDate());
+    const userName = users.username;
+    console.log(userName);
+    const days = dates[0].endDate.getDate() - dates[0].startDate.getDate();
+    const price = forPrice * days;
     console.log(price);
     console.log(hotelName);
+    console.log(users._id);
+    console.log(roomNumbers);
   };
 
   const { dates } = useContext(SearchContext);
@@ -61,7 +66,6 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
         : selectedRooms.filter((item) => item !== value)
     );
   };
-
 
   const navigate = useNavigate();
 
@@ -107,10 +111,15 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
               {item.roomNumbers.map((roomNumber) => (
                 <div className="room" key={roomNumber._id}>
                   <label>{roomNumber.number}</label>
-
                   <input
                     type="checkbox"
                     value={roomNumber._id}
+                    onClick={() => {
+                      setForPrice(item.price) &&
+                        // setRoomNumbers(roomNumber.number);
+                        // setRoomNumbers([...roomNumbers, roomNumber.number]);
+                        console.log(roomNumber.number);
+                    }}
                     onChange={handleSelect}
                     disabled={!isAvailable(roomNumber)}
                   />

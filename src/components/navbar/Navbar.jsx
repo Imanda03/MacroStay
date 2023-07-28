@@ -1,14 +1,30 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import MenuItem from "@material-ui/core/MenuItem";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleProfile = () => {
+    navigate("/userProfile");
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
   const { user } = useContext(AuthContext);
   const handleLogout = () => {
     localStorage.removeItem("user");
     navigate("/login");
+    window.location.reload(false);
   };
   return (
     <div className="navbar">
@@ -17,15 +33,27 @@ const Navbar = () => {
           <span className="logo">MacroStay</span>
         </Link>
         {user ? (
-          <div>
-            {" "}
-            {user.username}
-            <button
-              onClick={handleLogout}
-              style={{ marginLeft: "20px", cursor: "pointer" }}
-            >
-              Logout
-            </button>{" "}
+          <div className="manageDiv">
+            <div>
+              <Button
+                variant="contained"
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+                sx={{ color: "#ffffff" }}
+              >
+                {user.username.slice(0, user.username.indexOf(" "))}
+              </Button>
+              <Menu
+                keepMounted
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                open={Boolean(anchorEl)}
+              >
+                <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </div>
           </div>
         ) : (
           <div className="navItems">

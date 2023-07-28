@@ -26,3 +26,9 @@
   cursor: pointer;
   color: #003580;
 }
+
+.manageDiv{
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
