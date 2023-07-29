@@ -51,7 +51,7 @@ export const getUserRerve = async (req, res, next) => {
         return Reserve.findById(reser);
       })
     );
-    res.status(200).json(list);
+    res.status(200).json(list[0]);
   } catch (error) {
     next(error);
   }

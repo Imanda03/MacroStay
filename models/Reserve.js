@@ -9,12 +9,15 @@ const ReserveSchema = new mongoose.Schema(
       type: Number,
     },
     roomNumber: {
-      type: Number,
+      type: Object,
     },
     days: {
       type: String,
     },
     hotelName: {
+      type: String,
+    },
+    userid: {
       type: String,
     },
   },

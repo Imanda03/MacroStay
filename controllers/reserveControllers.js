@@ -1,7 +1,7 @@
 import Reserve from "../models/Reserve.js";
 import User from "../models/Users.js";
 
-export const addReserve = async (req, res) => {
+export const addReserve = async (req, res, next) => {
   const userId = req.params.userid;
   const newReserve = new Reserve(req.body);
   try {
@@ -32,10 +32,10 @@ export const getReserver = async (req, res, next) => {
 export const deleteReserve = async (req, res, next) => {
   const userID = req.params.userid;
   try {
-    await Reserve.findByIdAndDelete(req.params.id);
+    await Reserve.findByIdAndDelete(req.params.reserveid);
     try {
       await User.findByIdAndUpdate(userID, {
-        $pull: { reserve: req.params.id },
+        $pull: { reserve: req.params.reserveid },
       });
     } catch (error) {
       next(error);
