@@ -18,16 +18,19 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
     `http://localhost:8081/api/hotels/room/${hotelId}`
   );
 
-  const handleTest = () => {
-    const userName = users.username;
-    console.log(userName);
-    const days = dates[0].endDate.getDate() - dates[0].startDate.getDate();
-    const price = forPrice * days;
-    console.log(price);
-    console.log(hotelName);
-    console.log(users._id);
-    console.log(roomNumbers);
-  };
+  // const handleTest = () => {
+  //   const days = dates[0].endDate.getDate() - dates[0].startDate.getDate();
+
+  //   const reserveData = {
+  //     userName: users.username,
+  //     days: days,
+  //     price: forPrice * days,
+  //     hotelName: hotelName,
+  //     userid: users._id,
+  //     roomNumber: selectedRooms,
+  //   };
+  //   console.log(reserveData);
+  // };
 
   const { dates } = useContext(SearchContext);
 
@@ -82,6 +85,23 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
           return res.data;
         })
       );
+      try {
+        const days = dates[0].endDate.getDate() - dates[0].startDate.getDate();
+        const userid = users._id;
+        const reserveData = {
+          userName: users.username,
+          days: days,
+          price: forPrice * days,
+          hotelName: hotelName,
+          roomNumber: selectedRooms,
+          userid: userid,
+        };
+
+        await axios.post(
+          `http://localhost:8081/api/reserve/${userid}`,
+          reserveData
+        );
+      } catch (error) {}
       setOpen(false);
       navigate("/");
     } catch (err) {
@@ -132,7 +152,7 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
           Reserve Now!
         </button>
       </div>
-      <button onClick={handleTest}>Test</button>
+      {/* <button onClick={handleTest}>Test</button> */}
     </div>
   );
 };

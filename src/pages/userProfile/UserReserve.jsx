@@ -10,7 +10,8 @@ import {
 } from "@material-ui/core";
 import { useFetch } from "../../hooks/useFetch";
 import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 
 const UserReserve = () => {
   const { user } = useContext(AuthContext);
@@ -18,9 +19,19 @@ const UserReserve = () => {
   const { data, error, loading } = useFetch(
     `http://localhost:8081/api/users/reserve/${id}`
   );
-  console.log(data);
+
+  const reserveid = data._id || null;
+  console.log(reserveid);
+  console.log(id);
+  const handleDelete = async () => {
+    const userid = user._id;
+    await axios.delete(
+      `http://localhost:8081/api/reserve/${reserveid}/${userid}`
+    );
+  };
+  useEffect(() => {}, [data]);
   return (
-    <Box width={"200%"}>
+    <Box width={"150%"}>
       <Box>
         <Typography variant="h5" fontWeight={"500"} className="ReserverText">
           Your Reservation
@@ -38,17 +49,18 @@ const UserReserve = () => {
                   <TableCell align="center">Price</TableCell>
                 </TableRow>
               </TableHead>
-              {data.map((item) => (
-                <TableRow key={item._id}>
-                  <TableCell align="center">{item.hotelName}</TableCell>
-                  <TableCell align="center">{item.roomNumber}</TableCell>
-                  <TableCell align="center">{item.days} days</TableCell>
-                  <TableCell align="center">Rs.{item.price}</TableCell>
-                </TableRow>
-              ))}
+
+              <TableRow key={data._id}>
+                <TableCell align="center">{data.hotelName}</TableCell>
+                <TableCell align="center">{data.roomNumber}</TableCell>
+                <TableCell align="center">{data.days} days</TableCell>
+                <TableCell align="center">Rs.{data.price}</TableCell>
+              </TableRow>
             </Table>
           </TableContainer>
-          <button className="button">Cancle Reservation</button>
+          <button className="button" onClick={handleDelete}>
+            Cancle Reservation
+          </button>
         </Box>
       </Box>
     </Box>

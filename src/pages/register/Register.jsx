@@ -1,5 +1,13 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import React from "react";
+import {
+  Box,
+  Button,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd";
@@ -9,35 +17,49 @@ import "./Register.css";
 const Register = () => {
   const navigate = useNavigate();
   // console.log(isTeacher);
-  const [userData, setUserData] = React.useState({
-    username: "",
-    email: "",
-    country: "",
-    city: "",
-    phone: null,
-    password: "",
-  });
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [phone, setPhone] = useState(null);
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
+  const [pToggle, setpToggle] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setUserData((prevValue) => {
-      return {
-        ...prevValue,
-        [name]: type === "checkbox" ? checked : value,
-      };
-    });
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return "Invalid email format";
+    }
+    return "";
   };
-
-  const handleClick = async () => {
-    const response = await axios.post(
-      "http://localhost:8081/api/auth/register",
-      userData
-    );
-    if (response.data.status === 200) {
-      message.success("Register Success");
-      navigate("/login");
+  const handleHideAndShow = () => {
+    setpToggle(!pToggle);
+  };
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      return "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number";
+    }
+    return "";
+  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const emailError = validateEmail(email);
+    const passwordError = validatePassword(password);
+    setErrors({ ...errors, email: emailError, password: passwordError });
+    if (emailError === "" && passwordError === "") {
+      const response = await axios.post(
+        "http://localhost:8081/api/auth/register",
+        { username, email, country, city, phone, password }
+      );
+      if (response.data.status === 200) {
+        message.success("Register Success");
+        navigate("/login");
+      }
+      // console.log(username, email, country, city, phone, password);
     } else {
-      message.error("Check your deatils");
+      alert("Please enter correct details");
     }
   };
   return (
@@ -50,8 +72,8 @@ const Register = () => {
           alignItems="center"
           justifyContent="center"
           margin="auto"
-          marginTop={10}
-          padding={5}
+          marginTop={2}
+          padding={2}
           borderRadius={5}
           backgroundColor="#f5f3f0"
           boxShadow={"5px 5px 10px #ccc"}
@@ -62,7 +84,7 @@ const Register = () => {
             },
           }}
         >
-          <Typography variant="h2" padding={2} textAlign="center">
+          <Typography variant="h2" padding={1} textAlign="center">
             Register
           </Typography>
           <TextField
@@ -71,8 +93,12 @@ const Register = () => {
             type="text"
             variant="standard"
             label="Full Name"
-            onChange={(e) => handleChange(e)}
-            value={userData.name}
+            value={username}
+            required
+            onChange={(e) => setUsername(e.target.value)}
+            helperText={
+              username.length > 5 ? "" : "Name should be greater than 5"
+            }
           />
           <TextField
             name="email"
@@ -80,7 +106,9 @@ const Register = () => {
             type="email"
             variant="standard"
             label="Email"
-            onChange={(e) => handleChange(e)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            helperText={validateEmail(email)}
           />
           <TextField
             name="country"
@@ -88,7 +116,9 @@ const Register = () => {
             type="text"
             variant="standard"
             label="Country"
-            onChange={(e) => handleChange(e)}
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            helperText={country.length > 4 ? "" : "Enter valid country"}
           />
           <TextField
             name="city"
@@ -96,7 +126,9 @@ const Register = () => {
             type="text"
             variant="standard"
             label="City"
-            onChange={(e) => handleChange(e)}
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            helperText={city.length > 4 ? "" : "Enter valid country"}
           />
           <TextField
             name="phone"
@@ -104,29 +136,50 @@ const Register = () => {
             type="number"
             variant="standard"
             label="Phone Number"
-            onChange={(e) => handleChange(e)}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
           />
           <TextField
             name="password"
             margin="normal"
-            type="password"
+            type={pToggle ? "text" : "password"}
             variant="standard"
             label="Password"
-            onChange={(e) => handleChange(e)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment
+                  position="end"
+                  onClick={handleHideAndShow}
+                  sx={{ cursor: "pointer" }}
+                >
+                  {!pToggle ? (
+                    <VisibilityIcon fontSize="small" />
+                  ) : (
+                    <VisibilityOffIcon fontSize="small" />
+                  )}
+                </InputAdornment>
+              ),
+            }}
           />
+          <Box
+            sx={{
+              color: "red",
+              padding: " 0 60px",
+            }}
+          >
+            <small color="red">{validatePassword(password)}</small>
+          </Box>
           <Button
             sx={{ marginTop: 3, borderRadius: 3 }}
             variant="contained"
             color="warning"
-            onClick={handleClick}
+            // onClick={handleClick}
+            onClick={handleSubmit}
           >
             Register
           </Button>
-          <Link to="/login">
-            <Button sx={{ marginTop: 3, borderRadius: 3 }}>
-              Move to Login
-            </Button>
-          </Link>
         </Box>
       </form>
     </div>
