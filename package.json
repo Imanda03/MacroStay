@@ -20,6 +20,9 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.3",
     "node": "^20.1.0",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "stripe": "^13.7.0",
+    "uuid": "^9.0.1",
+    "uuidv4": "^6.2.13"
   }
 }
