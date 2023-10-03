@@ -95,7 +95,7 @@ const UserProfile = (props) => {
                     fontSize: "50px",
                   }}
                 >
-                  {/* {data.username} */}
+                  {user.username.split("")[0]}
                 </Avatar>
               </Box>
               <Box
@@ -117,7 +117,7 @@ const UserProfile = (props) => {
             </Paper>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            <Box height={"40vh"} width={"150%"} marginTop={"10px"}>
+            <Box height={"40vh"} width={"200%"} marginTop={"10px"}>
               <TableContainer>
                 <Table aria-label="simple table">
                   <TableBody bgcolor="#d6d2d2">

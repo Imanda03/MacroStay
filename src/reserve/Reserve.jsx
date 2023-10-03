@@ -7,8 +7,12 @@ import { useContext, useState } from "react";
 import { SearchContext } from "../context/SearchContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+
+import StripeCheckout from "react-stripe-checkout";
 
 const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
+  const { user } = useContext(AuthContext);
   const users = JSON.parse(localStorage.getItem("user"));
   console.log(users);
   const [forPrice, setForPrice] = useState();
@@ -31,6 +35,9 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
   //   };
   //   console.log(reserveData);
   // };
+
+  const REACT_APP_KEY =
+    "pk_test_51Ntuu9F8i2EULDmhhCnM3EeW7Y9HzllrMvSX2Khq5mhLbDYwrta2guVtFWwbQsiZLZ1uNDfDjrJMpwHdh53lHGKb00mUZKURQp";
 
   const { dates } = useContext(SearchContext);
 
@@ -69,6 +76,7 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
         : selectedRooms.filter((item) => item !== value)
     );
   };
+  console.log(user.email);
 
   const navigate = useNavigate();
 
@@ -95,8 +103,8 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
           hotelName: hotelName,
           roomNumber: selectedRooms,
           userid: userid,
+          email: user.email,
         };
-
         await axios.post(
           `http://localhost:8081/api/reserve/${userid}`,
           reserveData
@@ -148,9 +156,17 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
             </div>
           </div>
         ))}
-        <button onClick={handleClick} className="rButton">
-          Reserve Now!
-        </button>
+        <StripeCheckout
+          shippingAddress
+          stripeKey={REACT_APP_KEY}
+          token={handleClick}
+          name="Book room"
+          amount={forPrice * 100}
+          onClick={handleClick}
+          currency="npr"
+        >
+          <button className="rButton">Reserve Now!</button>
+        </StripeCheckout>
       </div>
       {/* <button onClick={handleTest}>Test</button> */}
     </div>

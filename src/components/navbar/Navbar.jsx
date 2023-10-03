@@ -40,6 +40,7 @@ const Navbar = () => {
                 aria-controls="simple-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
+                fullWidth
                 sx={{ color: "#ffffff" }}
               >
                 {user.username.slice(0, user.username.indexOf(" "))}
