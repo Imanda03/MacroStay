@@ -82,17 +82,6 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
 
   const handleClick = async () => {
     try {
-      await Promise.all(
-        selectedRooms.map((roomId) => {
-          const res = axios.put(
-            `http://localhost:8081/api/rooms/availability/${roomId}`,
-            {
-              dates: alldates,
-            }
-          );
-          return res.data;
-        })
-      );
       try {
         const days = dates[0].endDate.getDate() - dates[0].startDate.getDate();
         const userid = users._id;
@@ -105,13 +94,25 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
           userid: userid,
           email: user.email,
         };
+
         await axios.post(
           `http://localhost:8081/api/reserve/${userid}`,
           reserveData
         );
+        await Promise.all(
+          selectedRooms.map((roomId) => {
+            const res = axios.put(
+              `http://localhost:8081/api/rooms/availability/${roomId}`,
+              {
+                dates: alldates,
+              }
+            );
+            return res.data;
+          })
+        );
+        setOpen(false);
+        navigate("/");
       } catch (error) {}
-      setOpen(false);
-      navigate("/");
     } catch (err) {
       console.log(err);
     }

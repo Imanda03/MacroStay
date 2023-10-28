@@ -2,7 +2,7 @@ import "./list.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
@@ -22,12 +22,14 @@ const List = () => {
       max || 99999
     }`
   );
-  // console.log(min, max);
 
   const handleClick = () => {
     reFetch();
   };
 
+  const sortedItems = [...data].sort(
+    (a, b) => a.cheapestPrice - b.cheapestPrice
+  );
   return (
     <div>
       <Navbar />
@@ -117,7 +119,7 @@ const List = () => {
               "Loading please wait..."
             ) : (
               <>
-                {data.map((item) => (
+                {sortedItems.map((item) => (
                   <SearchItem item={item} key={item._id} />
                 ))}
               </>
