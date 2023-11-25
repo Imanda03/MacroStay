@@ -12,6 +12,7 @@ import { AuthContext } from "./context/AuthContext";
 import { hotelColumns, roomColumns, userColumns } from "./datatablesource";
 import NewHotel from "./pages/newHotel/NewHotel";
 import NewRoom from "./pages/newRoom/NewRoom";
+import Register from "./pages/register/register";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -28,6 +29,7 @@ function App() {
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
         <Routes>
+          <Route path="register" element={<Register />} />
           <Route path="/">
             <Route path="login" element={<Login />} />
             <Route

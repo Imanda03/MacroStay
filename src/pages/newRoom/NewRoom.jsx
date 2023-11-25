@@ -6,17 +6,22 @@ import { useState } from "react";
 import { roomInputs } from "../../formSource";
 import { useFetch } from "../../hooks/useFetch";
 import axios from "axios";
-import {message} from "antd"
+import { message } from "antd";
 
 const NewRoom = () => {
   const [info, setInfo] = useState({});
   const [hotelId, setHotelId] = useState(undefined);
   const [rooms, setRooms] = useState([]);
-
   const { data, loading, error } = useFetch("http://localhost:8081/api/hotels");
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleCheck = (e) => {
+    e.preventDefault();
+    // console.log(hotelId);
+    console.log(hotelId);
   };
 
   const handleClick = async (e) => {
@@ -27,11 +32,10 @@ const NewRoom = () => {
         ...info,
         roomNumbers,
       });
-      
     } catch (error) {
       console.log(error);
     }
-    message.success("Room added")
+    message.success("Room added");
   };
   return (
     <div className="new">
@@ -79,6 +83,7 @@ const NewRoom = () => {
                 </select>
               </div>
               <button onClick={handleClick}>Send</button>
+              {/* <button onClick={handleCheck}>check</button> */}
             </form>
           </div>
         </div>

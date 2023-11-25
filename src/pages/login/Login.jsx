@@ -18,6 +18,10 @@ const Login = () => {
     setCardentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleRegister = (e) => {
+    navigate("/register");
+  };
+
   const handleClick = async (e) => {
     e.preventDefault();
     dispatch({
@@ -68,6 +72,9 @@ const Login = () => {
           Login
         </button>
         {error && <span>{error.message}</span>}
+        <button className="lButton" onClick={handleRegister}>
+          Register
+        </button>
       </div>
     </div>
   );
