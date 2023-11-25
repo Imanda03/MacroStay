@@ -14,23 +14,41 @@ export const addReserve = async (req, res, next) => {
   const user = await User.findByIdAndUpdate(userId);
   console.log(req.body);
   try {
-    const customer = await stripe.customers.create({
-      email: req.body.email,
-      customer: req.body.userName,
+    // const customer = await stripe.customers.create({
+    //   email: req.body.email,
+    //   customer: req.body.userName,
+    // });
+    // create card token
+
+    const cardToken = await stripe.paymentIntents.create({
+      amount: req.body.price,
+      currency: "usd",
+      payment_method_types: ["card"],
     });
-    const payment = await stripe.charges.create(
-      {
-        amount: req.body.price * 100,
-        currency: "npr",
-        customer: customer.id,
-        receipt_email: req.body.email,
-      },
-      {
-        idempotencyKey: uuidv4(),
-      }
-    );
-    if (payment) {
-      console.log(error2);
+
+    // const payment = await stripe.tokens.create(
+    //   {
+    //     amount: req.body.price * 100,
+    //     currency: "npr",
+
+    //     customer: customer.id,
+    //     receipt_email: req.body.email,
+    //   },
+    //   {
+    //     idempotencyKey: uuidv4(),
+    //   }
+    // );
+
+    // const paymentIntent = await stripe.paymentMethods.create({
+    //   amount: req.body.price,
+    //   type: "card",
+    //   currency: "npr",
+    //   confirmation_method: "manual",
+    //   confirm: true,
+    //   return_url: "http://localhost:3000",
+    // });
+    if (cardToken) {
+      console.log(cardToken);
       // req.body.transactionId = payment.source.id;
       const newReserve = new Reserve(req.body);
 
@@ -45,9 +63,11 @@ export const addReserve = async (req, res, next) => {
 
       res.status(200).json(savedReserve);
     } else {
-      next(error);
+      console.error("Stripe API Error:", error);
+      res.status(500).send({ error: "Server error" });
     }
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

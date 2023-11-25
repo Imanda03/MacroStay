@@ -13,6 +13,7 @@ const securityKey = crypto.pbkdf2Sync(
   32,
   "sha512"
 );
+import nodemailer from "nodemailer";
 
 //encrypt function
 const encypt = (text) => {
@@ -76,5 +77,68 @@ export const login = async (req, res, next) => {
       .send({ details: { ...otherDetails }, isAdmin });
   } catch (error) {
     next(error);
+  }
+};
+
+export const forgotPassword = async (req, res, next) => {
+  const email = req.body.email;
+  console.log(req.body);
+  try {
+    await User.findOne({ email: email }).then((user) => {
+      if (!user) {
+        return res.status(400).json("User not found");
+      }
+      const token = jwt.sign({ id: user._id }, process.env.JWT, {
+        expiresIn: "1d",
+      });
+
+      var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.MYEMAIL,
+          pass: process.env.MYPASSWORD,
+        },
+      });
+      console.log("first");
+
+      var mailOptions = {
+        from: process.env.MYEMAIL,
+        to: email,
+        subject: "Reset your password",
+        text: `http://localhost:3000/reset-password/${user._id}`,
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          return res.status(200).json("Message sent successfully");
+        }
+      });
+    });
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
+  const salt = bcrypt.genSaltSync(10);
+  const hashPassword = bcrypt.hashSync(req.body.password, salt);
+
+  try {
+    if (!hashPassword) {
+      return res.status(400).json("Please enter  password");
+    } else {
+      const encryptedPassword = hashPassword;
+      await User.findByIdAndUpdate(
+        { _id: id },
+        { password: encryptedPassword }
+      );
+      return res.status(200).json("Success");
+    }
+  } catch (err) {
+    return res.status(400).json(err);
   }
 };
