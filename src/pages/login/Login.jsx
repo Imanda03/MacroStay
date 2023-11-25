@@ -3,6 +3,7 @@ import "./Login.css";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 
 const Login = () => {
   const [credentials, setCardentials] = useState({
@@ -42,6 +43,17 @@ const Login = () => {
     navigate("/register");
   };
 
+  // const forgetPassword = async (e) => {
+  //   try {
+  //     const res = await axios.post(
+  //       "http://localhost:8081/api/auth/forgot-password",
+  //       credentials
+  //     );
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
   return (
     <div className="navHome">
       <h4 style={{ marginLeft: "20px", marginTop: "20PX", cursor: "pointer" }}>
@@ -68,14 +80,19 @@ const Login = () => {
           <button disabled={loading} className="lButton" onClick={handleClick}>
             Login
           </button>
-          <h3 className="orLine"> OR</h3>
-          <button
-            disabled={loading}
-            className="lButton"
-            onClick={handleRegister}
-          >
-            Register
-          </button>
+          <div className="manageFor">
+            <Button variant="text" className="">
+              <Link to="/forgot-password">Forgot Password?</Link>
+            </Button>
+            <Button
+              disabled={loading}
+              className="lButton"
+              onClick={handleRegister}
+              variant="text"
+            >
+              Create Account
+            </Button>
+          </div>
           {error && <span>{error.message}</span>}
         </div>
       </div>
