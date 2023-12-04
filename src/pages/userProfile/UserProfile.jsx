@@ -117,7 +117,7 @@ const UserProfile = (props) => {
             </Paper>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            <Box height={"40vh"} width={"200%"} marginTop={"10px"}>
+            <Box height={"40vh"} width={"60vw"} marginTop={"10px"}>
               <TableContainer>
                 <Table aria-label="simple table">
                   <TableBody bgcolor="#d6d2d2">

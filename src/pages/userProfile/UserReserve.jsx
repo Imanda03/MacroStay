@@ -31,7 +31,7 @@ const UserReserve = () => {
   };
   useEffect(() => {}, [data]);
   return (
-    <Box width={"200%"}>
+    <Box width={"60vw"}>
       <Box>
         <Typography variant="h5" fontWeight={"500"} className="ReserverText">
           Your Reservation
