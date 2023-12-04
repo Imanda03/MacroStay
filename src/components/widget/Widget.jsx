@@ -4,20 +4,32 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+import axios from "axios";
+import { useFetch } from "../../hooks/useFetch";
+import { useEffect, useState } from "react";
 
 const Widget = ({ type }) => {
-  let data;
+  const [totalHotel, setTotalHotel] = useState("");
+  const hotelData = async () => {
+    const data = await axios.get("http://localhost:8081/api/hotels");
+    setTotalHotel(data.data.length);
+    console.log(totalHotel);
+  };
+  let StaticData;
 
-  //temporary
-  const amount = 100;
   const diff = 20;
+
+  useEffect(() => {
+    hotelData();
+  });
 
   switch (type) {
     case "user":
-      data = {
+      StaticData = {
         title: "USERS",
         isMoney: false,
         link: "See all users",
+        amount: 5,
         icon: (
           <PersonOutlinedIcon
             className="icon"
@@ -30,10 +42,11 @@ const Widget = ({ type }) => {
       };
       break;
     case "order":
-      data = {
-        title: "ORDERS",
+      StaticData = {
+        title: "HOTELS",
         isMoney: false,
-        link: "View all orders",
+        link: "View all hotels",
+        amount: 6,
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -46,10 +59,11 @@ const Widget = ({ type }) => {
       };
       break;
     case "earning":
-      data = {
-        title: "EARNINGS",
+      StaticData = {
+        title: "ROOMS",
         isMoney: true,
-        link: "View net earnings",
+        link: "View net rooms",
+        amount: 7,
         icon: (
           <MonetizationOnOutlinedIcon
             className="icon"
@@ -58,41 +72,66 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "balance":
-      data = {
-        title: "BALANCE",
-        isMoney: true,
-        link: "See details",
-        icon: (
-          <AccountBalanceWalletOutlinedIcon
-            className="icon"
-            style={{
-              backgroundColor: "rgba(128, 0, 128, 0.2)",
-              color: "purple",
-            }}
-          />
-        ),
-      };
-      break;
+    // case "balance":
+    //   data = {
+    //     title: "BALANCE",
+    //     isMoney: true,
+    //     link: "See details",
+    //     icon: (
+    //       <AccountBalanceWalletOutlinedIcon
+    //         className="icon"
+    //         style={{
+    //           backgroundColor: "rgba(128, 0, 128, 0.2)",
+    //           color: "purple",
+    //         }}
+    //       />
+    //     ),
+    //   };
+    //   break;
     default:
       break;
   }
-
   return (
+    // <div className="widget">
+    //   <div className="left">
+    //     <span className="title">{data.title}</span>
+    //     <span className="counter">
+    //       {
+    //         (data.title = "USERS"
+    //           ? user
+    //           : (data.title = "HOTELS" ? hotel : rooms))
+    //       }
+    //     </span>
+    //     <span className="link">{data.link}</span>
+    //   </div>
+    //   <div className="right">
+    //     <div className="percentage positive">
+    //       <KeyboardArrowUpIcon />
+    //       {diff} %
+    //     </div>
+    //     {data.icon}
+    //   </div>
+    // </div>
     <div className="widget">
       <div className="left">
-        <span className="title">{data.title}</span>
+        <span className="title">{StaticData.title}</span>
         <span className="counter">
-          {data.isMoney && "$"} {amount}
+          {
+            (StaticData.title = "USERS"
+              ? totalHotel
+              : (StaticData.title = "HOTELS"
+                  ? StaticData.amount
+                  : StaticData.amount))
+          }
         </span>
-        <span className="link">{data.link}</span>
+        <span className="link">{StaticData.link}</span>
       </div>
       <div className="right">
         <div className="percentage positive">
           <KeyboardArrowUpIcon />
           {diff} %
         </div>
-        {data.icon}
+        {StaticData.icon}
       </div>
     </div>
   );

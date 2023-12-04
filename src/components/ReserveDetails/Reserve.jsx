@@ -1,6 +1,6 @@
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import "./home.scss";
+import "./Reserve.scss";
 import Widget from "../../components/widget/Widget";
 import Featured from "../../components/featured/Featured";
 import Chart from "../../components/chart/Chart";
@@ -19,7 +19,7 @@ import { useFetch } from "../../hooks/useFetch";
 import { useState } from "react";
 import axios from "axios";
 
-const Home = () => {
+const Reserve = () => {
   const [userid, setUserid] = useState("");
   const [reserveid, setReserveid] = useState("");
   const { data, loading, error } = useFetch(
@@ -42,7 +42,7 @@ const Home = () => {
       <div className="homeContainer">
         <Navbar />
 
-        {/* <TableContainer component={Paper}>
+        <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -82,13 +82,13 @@ const Home = () => {
               ))}
             </TableBody>
           </Table>
-        </TableContainer> */}
+        </TableContainer>
 
-        <div className="widgets">
+        {/* <div className="widgets">
           <Widget type="user" />
           <Widget type="order" />
           <Widget type="earning" />
-          {/* <Widget type="balance" /> */}
+          <Widget type="balance" />
         </div>
         <div className="charts">
           <Featured />
@@ -97,10 +97,10 @@ const Home = () => {
         <div className="listContainer">
           <div className="listTitle">Latest Transactions</div>
           <Table />
-        </div>
+        </div> */}
       </div>
     </div>
   );
 };
 
-export default Home;
+export default Reserve;

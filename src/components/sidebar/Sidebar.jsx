@@ -29,9 +29,9 @@ const Sidebar = () => {
         <ul>
           <p className="title">MAIN</p>
           <li>
-            <Link to="/" style={{ textDecoration: "none" }}>
+            <Link to="/reserveDetails" style={{ textDecoration: "none" }}>
               <DashboardIcon className="icon" />
-              <span>Dashboard</span>
+              <span>Reserve Details</span>
             </Link>
           </li>
           <p className="title">LISTS</p>
