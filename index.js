@@ -6,6 +6,7 @@ import usersRoutes from "./routes/users.js";
 import roomsRoutes from "./routes/rooms.js";
 import hotelsRoutes from "./routes/hotels.js";
 import reserveRoutes from "./routes/reservation.js";
+import cancelRoutes from "./routes/Cancellation.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -27,6 +28,7 @@ app.use("/api/users", usersRoutes);
 app.use("/api/rooms", roomsRoutes);
 app.use("/api/hotels", hotelsRoutes);
 app.use("/api/reserve", reserveRoutes);
+app.use("/api/cancel", cancelRoutes);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

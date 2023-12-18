@@ -8,6 +8,9 @@ const ReserveSchema = new mongoose.Schema(
     price: {
       type: Number,
     },
+    room: {
+      type: Object,
+    },
     roomNumber: {
       type: Object,
     },

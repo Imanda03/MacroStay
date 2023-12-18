@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.post("/:userid", addReserve);
 router.get("/", getReserver);
-router.delete("/:reserveid/:userid", deleteReserve);
+router.delete("/:reserveid/:userid/:roomId", deleteReserve);
 
 export default router;
