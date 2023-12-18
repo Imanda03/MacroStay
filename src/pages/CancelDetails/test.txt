@@ -1,0 +1,6 @@
+ const { data, loading, error } = useFetch(`http://localhost:8081/api/cancel`);
+  console.log(data);
+  const handleDelete = (index) => {
+    // Implement your delete logic here
+    console.log(`Cancellation at index ${index} deleted`);
+  };

@@ -4,16 +4,42 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
-import axios from "axios";
-import { useFetch } from "../../hooks/useFetch";
+import axios, { all } from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Widget = ({ type }) => {
+  const navigate = useNavigate();
   const [totalHotel, setTotalHotel] = useState("");
+  const [totalUsers, setTotalUsers] = useState("");
+  const [totalReserve, setTotalReserve] = useState("");
+  const [allRoomNumbers, setAllRoomNumbers] = useState([]);
   const hotelData = async () => {
     const data = await axios.get("http://localhost:8081/api/hotels");
     setTotalHotel(data.data.length);
-    console.log(totalHotel);
+  };
+  const userData = async () => {
+    const data = await axios.get("http://localhost:8081/api/users");
+    setTotalUsers(data.data.length);
+  };
+  const roomData = async () => {
+    const data = await axios.get("http://localhost:8081/api/rooms");
+    const roomData = data.data;
+    const totalRooms = roomData.reduce(
+      (totalRooms, room) => totalRooms + room.roomNumbers.length,
+      0
+    );
+    setAllRoomNumbers(totalRooms);
+  };
+
+  const reserverData = async () => {
+    const data = await axios.get("http://localhost:8081/api/reserve");
+    const reservData = data.data;
+    const totalRoomReserve = reservData.reduce(
+      (total, reserve) => total + reserve.roomNumber.length,
+      0
+    );
+    setTotalReserve(totalRoomReserve);
   };
   let StaticData;
 
@@ -21,15 +47,30 @@ const Widget = ({ type }) => {
 
   useEffect(() => {
     hotelData();
+    userData();
+    roomData();
+    reserverData();
   });
+
+  const handleLink = (sth) => {
+    if (sth == "See all users") {
+      navigate("/users");
+    } else if (sth == "View all hotels") {
+      navigate("/hotels");
+    } else if (sth == "View all rooms") {
+      navigate("/rooms");
+    } else {
+      navigate("/reserveDetails");
+    }
+  };
 
   switch (type) {
     case "user":
       StaticData = {
-        title: "USERS",
+        title: "TOTAL USERS",
         isMoney: false,
         link: "See all users",
-        amount: 5,
+        amount: totalUsers,
         icon: (
           <PersonOutlinedIcon
             className="icon"
@@ -43,10 +84,10 @@ const Widget = ({ type }) => {
       break;
     case "order":
       StaticData = {
-        title: "HOTELS",
+        title: "TOTAL HOTELS",
         isMoney: false,
         link: "View all hotels",
-        amount: 6,
+        amount: totalHotel,
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -58,12 +99,12 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "earning":
+    case "room":
       StaticData = {
-        title: "ROOMS",
+        title: "TOTAL ROOMS",
         isMoney: true,
-        link: "View net rooms",
-        amount: 7,
+        link: "View all rooms",
+        amount: allRoomNumbers,
         icon: (
           <MonetizationOnOutlinedIcon
             className="icon"
@@ -72,64 +113,70 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    // case "balance":
-    //   data = {
-    //     title: "BALANCE",
-    //     isMoney: true,
-    //     link: "See details",
-    //     icon: (
-    //       <AccountBalanceWalletOutlinedIcon
-    //         className="icon"
-    //         style={{
-    //           backgroundColor: "rgba(128, 0, 128, 0.2)",
-    //           color: "purple",
-    //         }}
-    //       />
-    //     ),
-    //   };
-    //   break;
+    case "reserved":
+      StaticData = {
+        title: "RESERVED ROOMS",
+        isMoney: true,
+        link: "View details of reserved rooms",
+        amount: totalReserve,
+        icon: (
+          <AccountBalanceWalletOutlinedIcon
+            className="icon"
+            style={{
+              backgroundColor: "rgba(218, 165, 32, 0.2)",
+              color: "goldenrod",
+            }}
+          />
+        ),
+      };
+      break;
+    case "availableRoom":
+      StaticData = {
+        title: "AVAILABLE ROOMS",
+        isMoney: true,
+        link: "",
+        amount: allRoomNumbers - totalReserve,
+        icon: (
+          <AccountBalanceWalletOutlinedIcon
+            className="icon"
+            style={{
+              backgroundColor: "rgba(218, 165, 32, 0.2)",
+              color: "goldenrod",
+            }}
+          />
+        ),
+      };
+      break;
     default:
       break;
   }
   return (
-    // <div className="widget">
-    //   <div className="left">
-    //     <span className="title">{data.title}</span>
-    //     <span className="counter">
-    //       {
-    //         (data.title = "USERS"
-    //           ? user
-    //           : (data.title = "HOTELS" ? hotel : rooms))
-    //       }
-    //     </span>
-    //     <span className="link">{data.link}</span>
-    //   </div>
-    //   <div className="right">
-    //     <div className="percentage positive">
-    //       <KeyboardArrowUpIcon />
-    //       {diff} %
-    //     </div>
-    //     {data.icon}
-    //   </div>
-    // </div>
     <div className="widget">
       <div className="left">
         <span className="title">{StaticData.title}</span>
         <span className="counter">
           {
-            (StaticData.title = "USERS"
-              ? totalHotel
-              : (StaticData.title = "HOTELS"
+            (StaticData.title = "TOTAL USERS"
+              ? StaticData.amount
+              : (StaticData.title = "TOTAL HOTELS"
+                  ? StaticData.amount
+                  : (StaticData.title = "TOTAL ROOMS")
+                  ? StaticData.amount
+                  : (StaticData.title = "RESERVED ROOMS")
+                  ? StaticData.amount
+                  : (StaticData.title = "AVAILABLE ROOMS")
                   ? StaticData.amount
                   : StaticData.amount))
           }
         </span>
-        <span className="link">{StaticData.link}</span>
+        <span className="link" onClick={() => handleLink(StaticData.link)}>
+          {StaticData.link}
+        </span>
       </div>
       <div className="right">
         <div className="percentage positive">
           <KeyboardArrowUpIcon />
-          {diff} %
+          {/* {diff} % */}
         </div>
         {StaticData.icon}
       </div>

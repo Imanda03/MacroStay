@@ -14,6 +14,7 @@ import NewHotel from "./pages/newHotel/NewHotel";
 import NewRoom from "./pages/newRoom/NewRoom";
 import Register from "./pages/register/register";
 import Reserve from "./components/ReserveDetails/Reserve";
+import CancelDetails from "./pages/CancelDetails/CancelDetails";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -47,6 +48,16 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Reserve />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+            <Route path="reserveDetails/cancel">
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <CancelDetails />
                   </ProtectedRoute>
                 }
               />

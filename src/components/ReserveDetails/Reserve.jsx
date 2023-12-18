@@ -1,10 +1,6 @@
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import "./Reserve.scss";
-import Widget from "../../components/widget/Widget";
-import Featured from "../../components/featured/Featured";
-import Chart from "../../components/chart/Chart";
-// import Table from "../../components/table/Table";
 import {
   Table,
   TableBody,
@@ -18,6 +14,8 @@ import {
 import { useFetch } from "../../hooks/useFetch";
 import { useState } from "react";
 import axios from "axios";
+import { Box } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Reserve = () => {
   const [userid, setUserid] = useState("");
@@ -25,79 +23,49 @@ const Reserve = () => {
   const { data, loading, error } = useFetch(
     `http://localhost:8081/api/reserve`
   );
-  const handleClick = async () => {
-    try {
-      await axios.delete(
-        `http://localhost:8081/api/reserve/${reserveid}/${userid}`
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  console.log("user : " + userid);
-  console.log("reserve : " + reserveid);
   return (
     <div className="home">
       <Sidebar />
       <div className="homeContainer">
         <Navbar />
-
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">UserName</TableCell>
-                <TableCell align="center">Hotel</TableCell>
-                <TableCell align="center">Room.No</TableCell>
-                <TableCell align="center">Days</TableCell>
-                <TableCell align="center">Price</TableCell>
-                <TableCell align="center">Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((item) => (
-                <TableRow key={item._id}>
-                  <TableCell component="th" scope="row" align="center">
-                    {item.userName}
-                  </TableCell>
-                  <TableCell align="center">{item.hotelName}</TableCell>
-                  <TableCell align="center">{item.roomNumber}</TableCell>
-                  <TableCell align="center">{item.days} days</TableCell>
-                  <TableCell align="center">Rs.{item.price}</TableCell>
-                  <TableCell align="center">
-                    <Button
-                      variant="contained"
-                      color="warning"
-                      size="small"
-                      onClick={
-                        ((() => () => setUserid(item.userid),
-                        () => setReserveid(item._id)),
-                        () => handleClick())
-                      }
-                    >
-                      Delete
-                    </Button>
-                  </TableCell>
+        <Box sx={{}}>
+          <TableContainer component={Paper} sx={{ minHeight: "50vh" }}>
+            <h3>Reservation details</h3>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">S.N</TableCell>
+                  <TableCell align="center">UserName</TableCell>
+                  <TableCell align="center">Hotel</TableCell>
+                  <TableCell align="center">Room.No</TableCell>
+                  <TableCell align="center">Days</TableCell>
+                  <TableCell align="center">Price</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        {/* <div className="widgets">
-          <Widget type="user" />
-          <Widget type="order" />
-          <Widget type="earning" />
-          <Widget type="balance" />
-        </div>
-        <div className="charts">
-          <Featured />
-          <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} />
-        </div>
-        <div className="listContainer">
-          <div className="listTitle">Latest Transactions</div>
-          <Table />
-        </div> */}
+              </TableHead>
+              <TableBody>
+                {data.map((item, index) => (
+                  <TableRow key={item._id}>
+                    <TableCell align="center">{index + 1}</TableCell>
+                    <TableCell component="th" scope="row" align="center">
+                      {item.userName}
+                    </TableCell>
+                    <TableCell align="center">{item.hotelName}</TableCell>
+                    <TableCell align="center">{item.roomNumber}</TableCell>
+                    <TableCell align="center">{item.days} days</TableCell>
+                    <TableCell align="center">Rs.{item.price}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Box sx={{ padding: "10px", marginLeft: "82%" }}>
+            <Link to="cancel">
+              <Button variant="contained" color="primary">
+                Check The Cancellation
+              </Button>
+            </Link>
+          </Box>
+        </Box>
       </div>
     </div>
   );
