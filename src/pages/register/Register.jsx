@@ -72,7 +72,7 @@ const Register = () => {
           alignItems="center"
           justifyContent="center"
           margin="auto"
-          marginTop={2}
+          marginTop={10}
           padding={2}
           borderRadius={5}
           backgroundColor="#f5f3f0"
@@ -80,7 +80,7 @@ const Register = () => {
           sx={{
             ":hover": {
               boxShadow: "10px 10px 20px #ccc",
-              backgroundColor: "#edd8d8",
+              backgroundColor: "#f5f3f5",
             },
           }}
         >

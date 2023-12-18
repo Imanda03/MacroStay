@@ -36,11 +36,11 @@ const UserProfile = (props) => {
   );
   const [open, setOpen] = React.useState(false);
   const [updateData, setUpdateData] = React.useState({
-    username: data.username,
-    phone: data.phone,
-    email: data.email,
-    country: data.country,
-    city: data.city,
+    username: data?.username,
+    phone: data?.phone,
+    email: data?.email,
+    country: data?.country,
+    city: data?.city,
   });
 
   const handleClickOpen = () => {
@@ -108,10 +108,10 @@ const UserProfile = (props) => {
                 }}
               >
                 <Typography variant="h4" marginTop={"20px"}>
-                  {data.username}
+                  {data?.username}
                 </Typography>
                 <Typography variant="h5">
-                  {data.city}, {data.country}
+                  {data?.city}, {data?.country}
                 </Typography>
               </Box>
             </Paper>
@@ -125,26 +125,26 @@ const UserProfile = (props) => {
                       <TableCell component="th" scope="row" align="">
                         Full Name
                       </TableCell>
-                      <TableCell align="">{data.username}</TableCell>
+                      <TableCell align="">{data?.username}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell component="th" scope="row" align="">
                         Email
                       </TableCell>
-                      <TableCell align="">{data.email}</TableCell>
+                      <TableCell align="">{data?.email}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell component="th" scope="row" align="">
                         Phone Number
                       </TableCell>
-                      <TableCell align="">{data.phone}</TableCell>
+                      <TableCell align="">{data?.phone}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell component="th" scope="row" align="">
                         Address
                       </TableCell>
                       <TableCell align="">
-                        {data.city}, {data.country}
+                        {data?.city}, {data?.country}
                       </TableCell>
                     </TableRow>
                   </TableBody>
@@ -171,32 +171,32 @@ const UserProfile = (props) => {
             <TextField
               variant="outlined"
               name="username"
-              placeholder={data.username}
+              placeholder={data?.username}
               onChange={(e) => handleChnage(e)}
               color="warning"
             />
             <TextField
               variant="outlined"
               name="email"
-              placeholder={data.email}
+              placeholder={data?.email}
               onChange={(e) => handleChnage(e)}
             />
             <TextField
               variant="outlined"
               name="phone"
-              placeholder={data.phone}
+              placeholder={data?.phone}
               onChange={(e) => handleChnage(e)}
             />
             <TextField
               variant="outlined"
               name="city"
-              placeholder={data.city}
+              placeholder={data?.city}
               onChange={(e) => handleChnage(e)}
             />
             <TextField
               variant="outlined"
               name="country"
-              placeholder={data.country}
+              placeholder={data?.country}
               onChange={(e) => handleChnage(e)}
             />
           </Box>

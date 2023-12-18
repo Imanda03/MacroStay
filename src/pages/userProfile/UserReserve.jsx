@@ -1,6 +1,5 @@
 import {
   Table,
-  TableBody,
   TableCell,
   TableContainer,
   TableRow,
@@ -10,8 +9,9 @@ import {
 } from "@material-ui/core";
 import { useFetch } from "../../hooks/useFetch";
 import { AuthContext } from "../../context/AuthContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import axios from "axios";
+import { message } from "antd";
 
 const UserReserve = () => {
   const { user } = useContext(AuthContext);
@@ -19,17 +19,33 @@ const UserReserve = () => {
   const { data, error, loading } = useFetch(
     `http://localhost:8081/api/users/reserve/${id}`
   );
-
+  const userName = data.userName;
+  const days = data.days;
+  const hotelName = data.hotelName;
   const reserveid = data._id || null;
-  console.log(reserveid);
-  console.log(id);
+  const roomid = data?.roomNumber;
   const handleDelete = async () => {
     const userid = user._id;
-    await axios.delete(
-      `http://localhost:8081/api/reserve/${reserveid}/${userid}`
-    );
+    await axios
+      .post(`http://localhost:8081/api/cancel`, {
+        userName,
+        days,
+        hotelName,
+      })
+      .then(async () => {
+        await axios
+          .delete(
+            `http://localhost:8081/api/reserve/${reserveid}/${userid}/${roomid}`
+          )
+          .then(() => {
+            message.success("Cancellation has been completed. Please refresh!");
+          });
+        window.location.reload();
+      });
   };
-  useEffect(() => {}, [data]);
+  // useEffect(() => {
+  //   data;
+  // }, [handleDelete]);
   return (
     <Box width={"60vw"}>
       <Box>
