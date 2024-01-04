@@ -54,7 +54,6 @@ const Featured = () => {
   }, []);
 
   const perce = ((totalReserve / allRoomNumbers) * 100).toFixed(2);
-  console.log(perce);
 
   return (
     <div className="featured">

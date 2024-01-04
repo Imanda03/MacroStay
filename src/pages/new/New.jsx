@@ -33,7 +33,6 @@ const New = ({ inputs, title }) => {
       console.log(error);
     }
   };
-  console.log(info);
 
   return (
     <div className="new">

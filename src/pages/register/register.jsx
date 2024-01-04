@@ -12,11 +12,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd";
 import "./register.css";
-// import { register } from "../../Context/Api";
 
 const Register = () => {
   const navigate = useNavigate();
-  // console.log(isTeacher);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [country, setCountry] = useState("");
@@ -59,7 +57,6 @@ const Register = () => {
         message.success("Register Success");
         navigate("/login");
       }
-      // console.log(username, email, country, city, phone, password);
     } else {
       alert("Please enter correct details");
     }

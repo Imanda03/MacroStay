@@ -18,12 +18,6 @@ const NewRoom = () => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
-  const handleCheck = (e) => {
-    e.preventDefault();
-    // console.log(hotelId);
-    console.log(hotelId);
-  };
-
   const handleClick = async (e) => {
     e.preventDefault();
     const roomNumbers = rooms.split(",").map((room) => ({ number: room }));
