@@ -9,48 +9,17 @@ const stripe = new Stripe(
   "sk_test_51Ntuu9F8i2EULDmhJyXf5ojdni05vJXZWkBgbUCchAvsk8H4RYhQWbV5295RMsBrrxKspNIuOjopMCJYTGfa2KcY00PY0cMg05"
 );
 
-// import uuidv4 from "uuidv4";
-
 export const addReserve = async (req, res, next) => {
   const userId = req.params.userid;
   const user = await User.findByIdAndUpdate(userId);
-  console.log(req.body);
   try {
-    // const customer = await stripe.customers.create({
-    //   email: req.body.email,
-    //   customer: req.body.userName,
-    // });
-    // create card token
-
     const cardToken = await stripe.paymentIntents.create({
       amount: req.body.price,
       currency: "usd",
       payment_method_types: ["card"],
     });
 
-    // const payment = await stripe.tokens.create(
-    //   {
-    //     amount: req.body.price * 100,
-    //     currency: "npr",
-
-    //     customer: customer.id,
-    //     receipt_email: req.body.email,
-    //   },
-    //   {
-    //     idempotencyKey: uuidv4(),
-    //   }
-    // );
-
-    // const paymentIntent = await stripe.paymentMethods.create({
-    //   amount: req.body.price,
-    //   type: "card",
-    //   currency: "npr",
-    //   confirmation_method: "manual",
-    //   confirm: true,
-    //   return_url: "http://localhost:3000",
-    // });
     if (cardToken) {
-      console.log(cardToken);
       // req.body.transactionId = payment.source.id;
       const newReserve = new Reserve(req.body);
 
@@ -96,6 +65,7 @@ export const deleteReserve = async (req, res, next) => {
 
       Room.findOne({ "roomNumbers._id": roomid })
         .then((room) => {
+          //Make the room available
           if (room) {
             const roomNumberIndex = room.roomNumbers.findIndex(
               (number) => number._id.toString() === roomid
@@ -119,7 +89,6 @@ export const deleteReserve = async (req, res, next) => {
           res.status(200).json("Reserve has been canceled");
         })
         .catch((error) => {
-          // Handle any error that occurs in the Room.findOne callback
           console.error(error);
           res.status(500).json("Internal Server Error");
         });

@@ -36,8 +36,6 @@ export const register = async (req, res, next) => {
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(req.body.password, salt);
 
-    // const hashPassword = encypt(req.body.password);
-
     const newUser = new User({
       ...req.body,
       password: hashPassword,
@@ -53,11 +51,6 @@ export const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) return next(createError(404, "User not Found"));
-
-    // const reqPassword = decrypt(user.password);
-    // console.log(reqPassword);
-    // if (reqPassword !== req.body.password)
-    //   return next(createError(404, "Wrong Password"));
 
     const isPasswordCorrect = await bcrypt.compare(
       req.body.password,
@@ -80,9 +73,10 @@ export const login = async (req, res, next) => {
   }
 };
 
+// const decryptP = decrypt(req.body.password);
+// const hashPasswoord = encypt(req.body.password);
 export const forgotPassword = async (req, res, next) => {
   const email = req.body.email;
-  console.log(req.body);
   try {
     await User.findOne({ email: email }).then((user) => {
       if (!user) {
@@ -99,7 +93,6 @@ export const forgotPassword = async (req, res, next) => {
           pass: process.env.MYPASSWORD,
         },
       });
-      console.log("first");
 
       var mailOptions = {
         from: process.env.MYEMAIL,

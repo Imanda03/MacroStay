@@ -60,7 +60,6 @@ export const getAllHotels = async (req, res, next) => {
         $lte: max || 9999,
       },
     };
-    console.log(req.query);
     const hotels = await Hotel.find(query).limit();
     res.status(200).json(hotels);
   } catch (error) {
