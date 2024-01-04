@@ -59,6 +59,7 @@ const Reserve = ({ hotelName, price, setOpen, hotelId }) => {
 
   const alldates = getDatesInRange(dates[0].startDate, dates[0].endDate);
 
+  //check the room is available or not
   const isAvailable = (roomNumber) => {
     const isFound = roomNumber.unavailableDates.some((date) =>
       alldates.includes(new Date(date).getTime())

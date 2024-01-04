@@ -119,7 +119,7 @@ const List = () => {
               "Loading please wait..."
             ) : (
               <>
-                {sortedItems.map((item) => (
+                {data.map((item) => (
                   <SearchItem item={item} key={item._id} />
                 ))}
               </>

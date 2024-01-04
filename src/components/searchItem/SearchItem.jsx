@@ -1,65 +1,60 @@
 import { Link } from "react-router-dom";
 import "./searchItem.css";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 const SearchItem = ({ item }) => {
-  const initialData = [
-    { name: "Item A", price: 50 },
-    { name: "Item B", price: 30 },
-    { name: "Item C", price: 80 },
-    // Add more items as needed
-  ];
+  console.log(item);
 
-  const [data, setData] = useState(initialData);
+  //heapSort
 
-  const heapify = (arr, n, i) => {
+  const heapsort = (arr, key) => {
+    let n = arr.length;
+
+    //Build heap rearrange array
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+      heapify(arr, n, i, key);
+    }
+
+    for (let i = n - 1; i > 0; i--) {
+      let temp = arr[0];
+      arr[0] = arr[i];
+      arr[i] = temp;
+
+      heapify(arr, i, 0, key);
+    }
+
+    return arr;
+  };
+
+  const heapify = (arr, n, i, key) => {
     let largest = i;
-    const left = 2 * i + 1;
-    const right = 2 * i + 2;
+    let l = 2 * i + 1;
+    let r = 2 * i + 1;
 
-    if (left < n && arr[left].price > arr[largest].price) {
-      largest = left;
+    if (l < n && arr[l][key] > arr[largest][key]) {
+      largest = l;
     }
 
-    if (right < n && arr[right].price > arr[largest].price) {
-      largest = right;
-    }
-
-    if (largest !== i) {
-      const temp = arr[i];
+    if (largest != i) {
+      let swap = arr[i];
       arr[i] = arr[largest];
-      arr[largest] = temp;
+      arr[largest] = swap;
 
-      heapify(arr, n, largest);
+      //recursively heapify the affected sub-tree
+      heapify(arr, n, largest, key);
     }
   };
 
-  useEffect(() => {
-    const n = data.length;
-
-    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
-      heapify(data, n, i);
-    }
-
-    for (let i = n - 1; i >= 0; i--) {
-      const temp = data[0];
-      data[0] = data[i];
-      data[i] = temp;
-
-      heapify(data, i, 0);
-    }
-
-    setData([...data]); // Trigger a re-render
-  }, []); // Empty dependency array ensures that the effect runs only once, similar to componentDidMount
+  const price = heapsort(item, "cheapestPrice");
 
   return (
     <div className="searchItem">
-      <img src={item.photos[0]} alt="" className="siImg" />
+      <img src={price.photos[0]} alt="" className="siImg" />
       <div className="siDesc">
-        <h1 className="siTitle">{item.name}</h1>
-        <span className="siDistance">{item.distance}</span>
+        <h1 className="siTitle">{price.name}</h1>
+        <span className="siDistance">{price.distance}</span>
         <span className="siTaxiOp">Free airport taxi</span>
-        <span className="siSubtitle">{item.desc}</span>
+        <span className="siSubtitle">{price.desc}</span>
         <span className="siFeatures">Entire studio • 1 bathroom • 21m²</span>
         <span className="siCancelOp">Free cancellation </span>
         <span className="siCancelOpSubtitle">
@@ -67,16 +62,16 @@ const SearchItem = ({ item }) => {
         </span>
       </div>
       <div className="siDetails">
-        {item.rating && (
+        {price.rating && (
           <div className="siRating">
             <span>Excellent</span>
-            <button>{item.rating}</button>
+            <button>{price.rating}</button>
           </div>
         )}
         <div className="siDetailTexts">
-          <span className="siPrice">Rs.{item.cheapestPrice}</span>
+          <span className="siPrice">Rs.{price.cheapestPrice}</span>
           <span className="siTaxOp">Includes taxes and fees</span>
-          <Link to={`/hotels/${item._id}`}>
+          <Link to={`/hotels/${price._id}`}>
             <button className="siCheckButton">See availability</button>
           </Link>
         </div>

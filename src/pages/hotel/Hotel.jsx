@@ -35,12 +35,12 @@ const Hotel = () => {
 
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   function dayDifference(date1, date2) {
-    const timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    const timeDiff = Math.abs(date2?.getTime() - date1?.getTime());
     const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
     return diffDays;
   }
 
-  const days = dayDifference(dates[0].endDate, dates[0].startDate);
+  const days = dayDifference(dates[0]?.endDate, dates[0]?.startDate);
   // console.log(dayDifference(dates[0].endDate, dates[0].startDate))
   // console.log(dates)
 
@@ -76,6 +76,7 @@ const Hotel = () => {
     <div>
       <Navbar />
       <Header type="list" />
+
       {loading ? (
         "Loading please wait"
       ) : (

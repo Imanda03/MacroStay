@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import {
   Box,
@@ -9,6 +9,7 @@ import {
   Dialog,
   DialogTitle,
   DialogActions,
+  TextField,
 } from "@mui/material";
 import {
   Table,
@@ -16,7 +17,6 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  TextField,
 } from "@material-ui/core";
 import "./UserProfile.css";
 import { useFetch } from "../../hooks/useFetch";
@@ -24,18 +24,14 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import UserReserve from "./UserReserve";
 
-// const users = JSON.parse(localStorage.getItem("user"));
-// const id = users._id || null;
-
 const UserProfile = (props) => {
   const { user } = useContext(AuthContext);
   const id = user._id;
-  console.log(id);
   const { data, loading, error } = useFetch(
     `http://localhost:8081/api/users/${id}`
   );
-  const [open, setOpen] = React.useState(false);
-  const [updateData, setUpdateData] = React.useState({
+  const [open, setOpen] = useState(false);
+  const [updateData, setUpdateData] = useState({
     username: data?.username,
     phone: data?.phone,
     email: data?.email,
@@ -68,15 +64,20 @@ const UserProfile = (props) => {
         <Box
           height={"80vh"}
           padding={"20px"}
-          sx={{ display: "flex", flexDirection: "row", gap: "40px" }}
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "40px",
+          }}
         >
           <Box className="userProfile" width={"35%"}>
             <Paper
-              evaluation={44}
+              elevation={3}
               sx={{
-                width: "100%",
-                height: "70vh",
-                background: "rgb(217, 221, 225)",
+                padding: "20px",
+                background: "#f0f0f0",
+                borderRadius: "15px",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
               }}
             >
               <Box
@@ -89,13 +90,14 @@ const UserProfile = (props) => {
                 <Avatar
                   sx={{
                     bgcolor: "#800000",
-                    height: "20vh",
-                    width: "30%",
-                    marginTop: "80px",
-                    fontSize: "50px",
+                    height: "10vh",
+                    width: "10vh",
+                    fontSize: "2rem",
+                    marginTop: "20px",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
                   }}
                 >
-                  {user.username.split("")[0]}
+                  {user.username.slice(0, 1)}
                 </Avatar>
               </Box>
               <Box
@@ -104,44 +106,58 @@ const UserProfile = (props) => {
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: "5px",
+                  gap: "10px",
+                  marginTop: "20px",
+                  marginBottom: "30vh",
                 }}
               >
-                <Typography variant="h4" marginTop={"20px"}>
+                <Typography
+                  variant="h5"
+                  sx={{ fontWeight: "bold", color: "#333" }}
+                >
                   {data?.username}
                 </Typography>
-                <Typography variant="h5">
+                <Typography variant="subtitle1" sx={{ color: "#555" }}>
                   {data?.city}, {data?.country}
                 </Typography>
               </Box>
             </Paper>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            <Box height={"40vh"} width={"60vw"} marginTop={"10px"}>
+            <Box
+              height={"40vh"}
+              width={"60vw"}
+              marginTop={"10px"}
+              sx={{
+                backgroundColor: "#f0f0f0",
+                padding: "20px",
+                borderRadius: "10px",
+              }}
+            >
               <TableContainer>
                 <Table aria-label="simple table">
-                  <TableBody bgcolor="#d6d2d2">
+                  <TableBody>
                     <TableRow>
-                      <TableCell component="th" scope="row" align="">
-                        Full Name
+                      <TableCell component="th" scope="row" align="left">
+                        <strong>Full Name</strong>
                       </TableCell>
                       <TableCell align="">{data?.username}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell component="th" scope="row" align="">
-                        Email
+                      <TableCell component="th" scope="row" align="left">
+                        <strong>Email</strong>
                       </TableCell>
                       <TableCell align="">{data?.email}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell component="th" scope="row" align="">
-                        Phone Number
+                      <TableCell component="th" scope="row" align="left">
+                        <strong>Phone Number</strong>
                       </TableCell>
                       <TableCell align="">{data?.phone}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell component="th" scope="row" align="">
-                        Address
+                      <TableCell component="th" scope="row" align="left">
+                        <strong>Address</strong>
                       </TableCell>
                       <TableCell align="">
                         {data?.city}, {data?.country}
@@ -150,30 +166,32 @@ const UserProfile = (props) => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <button className="button" onClick={handleClickOpen}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleClickOpen}
+                sx={{ marginTop: "20px" }}
+              >
                 Edit Profile
-              </button>
+              </Button>
             </Box>
             <UserReserve />
           </Box>
         </Box>
       </Box>
       <Box className="dialogBox">
-        <Dialog open={open} aria-labelledby="draggable-dialog-title" fullWidth>
-          <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
-            Edit Profile
-          </DialogTitle>
+        <Dialog open={open} fullWidth>
+          <DialogTitle>Edit Profile</DialogTitle>
           <small className="small">Change that are only needed</small>
           <Box
-            padding={"50px"}
-            sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            padding={"20px"}
+            sx={{ display: "flex", flexDirection: "column", gap: "20px" }}
           >
             <TextField
               variant="outlined"
               name="username"
               placeholder={data?.username}
               onChange={(e) => handleChnage(e)}
-              color="warning"
             />
             <TextField
               variant="outlined"

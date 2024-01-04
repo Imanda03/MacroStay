@@ -23,7 +23,7 @@ const ForgotPassword = () => {
       );
       message.success("Check Your Mail");
     } catch (error) {
-      console.log(error);
+      message.error("User Not Found!");
     }
   };
 
